@@ -11,6 +11,7 @@ module.exports = function (options) {
 		var handler = options[selector];
 
 		if (typeof handler === 'string') {
+			var canBeExprStmt = handler.slice(-1) === ';';
 			var tmpl = estemplate.compile(handler, {tolerant: true});
 
 			handler = function (node, named) {
@@ -19,7 +20,7 @@ module.exports = function (options) {
 				if (ast.body.length === 1) {
 					return ast.body[0];
 
-					if (ast.type === 'ExpressionStatement') {
+					if (ast.type === 'ExpressionStatement' && !canBeExprStmt) {
 						ast = ast.expression;
 					}
 				} else {
