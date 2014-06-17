@@ -41,6 +41,21 @@ aster.src('src/**/*.js')
 .subscribe(aster.runner);
 ```
 
+can be also written as:
+
+```javascript
+var aster = require('aster');
+var equery = require('aster-equery');
+
+aster.src('src/**/*.js')
+.map(equery({
+  'if ($cond) return $expr1; else return $expr2;': 'return <%= cond %> ? <%= expr1 %> : <%= expr2 %>'
+  // , ...
+}))
+.map(aster.dest('dist'))
+.subscribe(aster.runner);
+```
+
 ## API
 
 ### equery(mappings)
@@ -55,10 +70,15 @@ Type: `String`
 
 [JavaScript example pattern](http://graspjs.com/docs/equery/).
 
-##### handler
+##### handler (option 1: callback)
 Type: `Function(node, named)`
 
 Callback to be called on each found match. It will get two arguments - matched node object and hashmap of named subpatterns.
+
+#### handler (option 2: template)
+Type: `String`
+
+[estemplate](https://github.com/RReverser/estemplate) string to be used for generating AST.
 
 ## License
 
