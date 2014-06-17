@@ -75,7 +75,7 @@ Type: `Function(node, named)`
 
 Callback to be called on each found match. It will get two arguments - matched node object and hashmap of named subpatterns.
 
-#### handler (option 2: template)
+##### handler (option 2: template)
 Type: `String`
 
 [estemplate](https://github.com/RReverser/estemplate) string to be used for generating AST.
