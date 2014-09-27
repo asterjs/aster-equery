@@ -1,6 +1,6 @@
 {
   "name": "aster-equery",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Replace nodes with pattern-matching selectors in aster.",
   "author": "Ingvar Stepanyan <me@rreverser.com> (https://github.com/RReverser)",
   "repository": "asterjs/aster-equery",
@@ -23,13 +23,13 @@
   "dependencies": {
     "es6-map": "^0.1.0",
     "estemplate": "^0.1.1",
-    "estraverse": "^1.5.0",
+    "estraverse": "^1.5.1",
     "grasp-equery": "^0.2.1",
-    "rx": "^2.2.0"
+    "rx": "^2.3.11"
   },
   "devDependencies": {
     "chai": "*",
-    "escodegen": "^1.3.3",
+    "escodegen": "^1.4.1",
     "esprima": "^1.2.2",
     "mocha": "*"
   }
