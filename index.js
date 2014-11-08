@@ -44,7 +44,7 @@ module.exports = function (options) {
 					var handler = replace.handler;
 
 					return Rx.Observable.fromArray(equery.queryParsed(replace.selector, file.program)).map(function (node) {
-						var named = node._named;
+						var named = node._named || {};
 						delete node._named;
 						return [node, handler(node, named)];
 					});
