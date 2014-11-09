@@ -18,7 +18,7 @@ module.exports = function (options) {
 				var ast = tmpl(named);
 
 				if (ast.body.length === 1) {
-					return ast.body[0];
+					ast = ast.body[0];
 
 					if (ast.type === 'ExpressionStatement' && !canBeExprStmt) {
 						ast = ast.expression;
