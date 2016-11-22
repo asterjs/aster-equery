@@ -21,16 +21,16 @@
     "test": "mocha"
   },
   "dependencies": {
-    "es6-map": "^0.1.0",
-    "estemplate": "^0.1.1",
-    "estraverse": "^1.5.1",
-    "grasp-equery": "^0.2.1",
-    "rx": "^2.3.11"
+    "es6-map": "^0.1.4",
+    "estemplate": "^0.5.1",
+    "estraverse": "estools/estraverse#master",
+    "grasp-equery": "^0.3.1",
+    "rx": "^4.1.0"
   },
   "devDependencies": {
     "chai": "*",
-    "escodegen": "^1.4.1",
-    "esprima": "^1.2.2",
+    "escodegen": "^1.8.1",
+    "esprima": "^jquery/esprima#master",
     "mocha": "*"
   }
 }
