@@ -34,7 +34,12 @@ it('function handler', function (done) {
 	})(Rx.Observable.fromArray(input))
 	.pluck('program')
 	.map(generate)
-	.zip(expected, assert.equal)
+	// .zip(expected, assert.equal)
+	.do(function (file) {
+		assert.equal(file, expected[0]);
+		// assert.equal(file.program.type, 'Program');
+	})
+
 	.subscribe(function () {}, done, done);
 });
 
@@ -54,6 +59,11 @@ it('template handler', function (done) {
 	})(Rx.Observable.fromArray(input))
 	.pluck('program')
 	.map(generate)
-	.zip(expected, assert.equal)
+	// .zip(expected, assert.equal)
+	.do(function (file) {
+		assert.equal(file, expected[0]);
+		// assert.equal(file.program.type, 'Program');
+	})
+
 	.subscribe(function () {}, done, done);
 });
