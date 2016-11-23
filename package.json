@@ -23,14 +23,14 @@
   "dependencies": {
     "es6-map": "^0.1.4",
     "estemplate": "^0.5.1",
-    "estraverse": "estools/estraverse#master",
+    "estraverse": "^4.2.0",
     "grasp-equery": "^0.3.1",
     "rx": "^4.1.0"
   },
   "devDependencies": {
     "chai": "*",
     "escodegen": "^1.8.1",
-    "esprima": "^jquery/esprima#master",
+    "esprima": "^3.1.0",
     "mocha": "*"
   }
 }
