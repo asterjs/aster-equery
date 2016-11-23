@@ -80,6 +80,26 @@ Type: `String`
 
 [estemplate](https://github.com/RReverser/estemplate) string to be used for generating AST.
 
+#### queryMapper
+
+Custom `queryMapper` RxJS mapper or function that produces such a mapper (when passed `options`).
+
+#### replaces
+
+Custom `replaces` ie. `Rx.Observable.fromArray(...)` or a function that produces it.
+
+#### equery
+
+Custom `equery`, by default `require('grasp-equery')`
+
+#### traverse
+
+Custom `traverse` replacer, by default `require('estraverse').replace`
+
+#### estemplate
+
+Custom `estemplate`, by default `require('estemplate')`
+
 ## License
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)

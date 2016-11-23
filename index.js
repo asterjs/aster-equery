@@ -2,17 +2,48 @@
 
 var Rx = require('rx');
 var equery = require('grasp-equery');
-var Map = require('es6-map');
+var Map = Map || require('es6-map');
 var traverse = require('estraverse').replace;
 var estemplate = require('estemplate');
 
+function defaultMapper(options) {
+	return function (files) {
+		return files.flatMap(function (file) {
+			return options.replaces
+				.flatMap(function (replace) {
+					var handler = replace.handler;
+
+					return Rx.Observable.fromArray(options.equery.queryParsed(replace.selector, file.program)).map(function (node) {
+						var named = node._named || {};
+						delete node._named;
+						return [node, handler(node, named)];
+					});
+				})
+				.filter(function (replace) { return replace[1] !== undefined })
+				.toArray()
+				.map(function (replaces) {
+					file.program = options.traverse(file.program, {
+						leave: Map.prototype.get.bind(new Map(replaces))
+					});
+
+					return file;
+				});
+		});
+	}
+}
+
 module.exports = function (options) {
-	var replaces = Rx.Observable.fromArray(Object.keys(options)).map(function (selector) {
+	options = options || {}
+	options.equery = options.equery || equery
+	options.traverse = options.traverse || traverse
+	options.estemplate = options.estemplate || estemplate
+
+	var defaultReplaces = Rx.Observable.fromArray(Object.keys(options)).map(function (selector) {
 		var handler = options[selector];
 
 		if (typeof handler === 'string') {
 			var canBeExprStmt = handler.slice(-1) === ';';
-			var tmpl = estemplate.compile(handler, {tolerant: true});
+			var tmpl = options.estemplate.compile(handler, {tolerant: true});
 
 			handler = function (node, named) {
 				var ast = tmpl(named);
@@ -32,32 +63,17 @@ module.exports = function (options) {
 		}
 
 		return {
-			selector: equery.parse(selector),
+			selector: options.equery.parse(selector),
 			handler: handler
 		};
 	});
 
-	return function (files) {
-		return files.flatMap(function (file) {
-			return replaces
-				.flatMap(function (replace) {
-					var handler = replace.handler;
 
-					return Rx.Observable.fromArray(equery.queryParsed(replace.selector, file.program)).map(function (node) {
-						var named = node._named || {};
-						delete node._named;
-						return [node, handler(node, named)];
-					});
-				})
-				.filter(function (replace) { return replace[1] !== undefined })
-				.toArray()
-				.map(function (replaces) {
-					file.program = traverse(file.program, {
-						leave: Map.prototype.get.bind(new Map(replaces))
-					});
+	var replaces = options.replaces || defaultReplaces
+	replaces  = typeof replaces === 'function' ? replaces(options) : replaces
+	options.replaces = replaces
 
-					return file;
-				});
-		});
-	}
+	var qMapper = options.queryMapper || defaultMapper
+	qMapper = typeof qMapper === 'function' ? qMapper(options) : qMapper
+	return qMapper
 };
